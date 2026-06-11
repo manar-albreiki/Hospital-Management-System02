@@ -1,0 +1,72 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\maaa7\\OneDrive\\Documents\\Solution\\Hospital Management System\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{CA339D34-0034-4B9F-A142-98B8FD24DF0E}|Hospital Management System\\Hospital Management System.csproj|c:\\users\\maaa7\\onedrive\\documents\\solution\\hospital management system\\hospital management system\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CA339D34-0034-4B9F-A142-98B8FD24DF0E}|Hospital Management System\\Hospital Management System.csproj|solutionrelative:hospital management system\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CA339D34-0034-4B9F-A142-98B8FD24DF0E}|Hospital Management System\\Hospital Management System.csproj|c:\\users\\maaa7\\onedrive\\documents\\solution\\hospital management system\\hospital management system\\models\\availableslot.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CA339D34-0034-4B9F-A142-98B8FD24DF0E}|Hospital Management System\\Hospital Management System.csproj|solutionrelative:hospital management system\\models\\availableslot.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CA339D34-0034-4B9F-A142-98B8FD24DF0E}|Hospital Management System\\Hospital Management System.csproj|c:\\users\\maaa7\\onedrive\\documents\\solution\\hospital management system\\hospital management system\\models\\appointment.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CA339D34-0034-4B9F-A142-98B8FD24DF0E}|Hospital Management System\\Hospital Management System.csproj|solutionrelative:hospital management system\\models\\appointment.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\maaa7\\OneDrive\\Documents\\Solution\\Hospital Management System\\Hospital Management System\\Program.cs",
+              "RelativeDocumentMoniker": "Hospital Management System\\Program.cs",
+              "ToolTip": "C:\\Users\\maaa7\\OneDrive\\Documents\\Solution\\Hospital Management System\\Hospital Management System\\Program.cs",
+              "RelativeToolTip": "Hospital Management System\\Program.cs",
+              "ViewState": "AgIAAJQAAAAAAAAAAIAwwKQAAAAWAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-11T05:38:23.337Z",
+              "IsPinned": true,
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Appointment.cs",
+              "DocumentMoniker": "C:\\Users\\maaa7\\OneDrive\\Documents\\Solution\\Hospital Management System\\Hospital Management System\\Models\\Appointment.cs",
+              "RelativeDocumentMoniker": "Hospital Management System\\Models\\Appointment.cs",
+              "ToolTip": "C:\\Users\\maaa7\\OneDrive\\Documents\\Solution\\Hospital Management System\\Hospital Management System\\Models\\Appointment.cs",
+              "RelativeToolTip": "Hospital Management System\\Models\\Appointment.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAbAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-11T10:24:29.333Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "AvailableSlot.cs",
+              "DocumentMoniker": "C:\\Users\\maaa7\\OneDrive\\Documents\\Solution\\Hospital Management System\\Hospital Management System\\Models\\AvailableSlot.cs",
+              "RelativeDocumentMoniker": "Hospital Management System\\Models\\AvailableSlot.cs",
+              "ToolTip": "C:\\Users\\maaa7\\OneDrive\\Documents\\Solution\\Hospital Management System\\Hospital Management System\\Models\\AvailableSlot.cs",
+              "RelativeToolTip": "Hospital Management System\\Models\\AvailableSlot.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAbAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-11T07:54:43.979Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
