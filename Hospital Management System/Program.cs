@@ -1,4 +1,5 @@
 ﻿using Hospital_Management_System.Models;
+using System.Net.NetworkInformation;
 using System.Runtime.CompilerServices;
 using System.Transactions;
 
@@ -31,18 +32,18 @@ namespace Hospital_Management_System
             context.Patients.Add(new Patient
             {
                 patientName = patientName,
-                patientAge= patientAge,
-                patientGender= patientGender,
-                patientPhone= patientPhone,
-                patientEmail= patientEmail,
-                patientBloodType= patientBloodType,
-                patientId= patientId
+                patientAge = patientAge,
+                patientGender = patientGender,
+                patientPhone = patientPhone,
+                patientEmail = patientEmail,
+                patientBloodType = patientBloodType,
+                patientId = patientId
 
             });
             Console.WriteLine("Patient Added Successfully with ID " + patientId);
         }
 
-        public static void AddDoctor (HospitalContext context)
+        public static void AddDoctor(HospitalContext context)
         {
             Console.WriteLine("Enter doctor Name :");
             string doctorName = Console.ReadLine();
@@ -64,30 +65,30 @@ namespace Hospital_Management_System
 
             context.Doctors.Add(new Doctor
             {
-                doctorName= doctorName,
-                doctorSpecialization= doctorSpecialization,
-                doctorPhone= doctorPhone,
-                doctorEmail= doctorEmail,
-                consultationFee= consultationFee,
-                doctorId= doctorId
+                doctorName = doctorName,
+                doctorSpecialization = doctorSpecialization,
+                doctorPhone = doctorPhone,
+                doctorEmail = doctorEmail,
+                consultationFee = consultationFee,
+                doctorId = doctorId
 
             });
         }
 
-        public static void ViewPatients (HospitalContext context)
+        public static void ViewPatients(HospitalContext context)
         {
             if (context.Patients != null)
             {
-                foreach(var p in context.Patients)
+                foreach (var p in context.Patients)
                 {
                     Console.WriteLine("Patient details:");
-                    Console.WriteLine("patient Id:"+ p.patientId);
+                    Console.WriteLine("patient Id:" + p.patientId);
                     Console.WriteLine("patient Name:" + p.patientName);
                     Console.WriteLine("patient Phone:" + p.patientPhone);
                     Console.WriteLine("patient Blood Type:" + p.patientBloodType);
-                    
+
                 }
-            }else
+            } else
             {
                 Console.WriteLine("No Patient have been registered yet!");
             }
@@ -95,12 +96,12 @@ namespace Hospital_Management_System
 
         public static void ViewDoctors(HospitalContext context)
         {
-            
+
             Console.WriteLine("Enter doctors Specialization");
             string enterdSpecialization = Console.ReadLine();
 
 
-             foreach (var c in context.Doctors)
+            foreach (var c in context.Doctors)
             {
                 if (enterdSpecialization == c.doctorSpecialization)
                 {
@@ -114,16 +115,18 @@ namespace Hospital_Management_System
                 {
                     Console.WriteLine("No available doctors");
                 }
-            } 
+            }
         }
 
-        public static void AddSlot (HospitalContext context)
+        public static void AddSlot(HospitalContext context)
         {
             Console.WriteLine("Enter doctor Id:");
             int doctorId = int.Parse(Console.ReadLine());
 
-            Console.WriteLine("Enter slot Id:");
-            int slotId = int.Parse(Console.ReadLine());
+            //Console.WriteLine("Enter slot Id:");
+            //int slotId = int.Parse(Console.ReadLine());
+
+            int slotId = (context.AvailableSlots.Count) + 1;
 
             Console.WriteLine("Enter slot Date:");
             string slotDate = Console.ReadLine();
@@ -133,125 +136,209 @@ namespace Hospital_Management_System
 
             context.AvailableSlots.Add(new AvailableSlot
             {
-                slotId= slotId,
-                doctorId= doctorId,
-                slotDate= slotDate,
-                slotTime= slotTime
+                slotId = slotId,
+                doctorId = doctorId,
+                slotDate = slotDate,
+                slotTime = slotTime,
+                isBooked = false
             });
             Console.WriteLine($"The Slot with id = {slotId} has been added to doctor with id = {doctorId}");
         }
 
-        public static void BookAppointment (HospitalContext context)
+        public static void BookAppointment(HospitalContext context)
         {
             Console.WriteLine("Enter patient Id");
-            int patientId=int.Parse(Console.ReadLine());
+            int patientId = int.Parse(Console.ReadLine());
 
             Console.WriteLine("Enter doctor Id");
             int enteredDoctorId = int.Parse(Console.ReadLine());
 
+
+
             foreach (var a in context.AvailableSlots)
             {
-                if (a.doctorId== enteredDoctorId)
-                {
-                    if (a.isBooked != false)
-                    {
 
-                        Console.WriteLine("((if small)) No available slots with doctor id =" + a.doctorId);
-                    }
-                    else
-                    {
-                        Console.WriteLine("slotId: " + a.slotId);
-                        Console.WriteLine("doctorId: " + a.doctorId);
-                        Console.WriteLine("slotDat:  " + a.slotDate);
-                        Console.WriteLine("slotTim: " + a.slotTime);
-                    }
+                if (a.isBooked == false && enteredDoctorId == a.doctorId)
+                {
+
+
+                    Console.WriteLine("slotId: " + a.slotId);
+                    Console.WriteLine("doctorId: " + a.doctorId);
+                    Console.WriteLine("slotDat:  " + a.slotDate + " slotTim: " + a.slotTime);
+
                 }
+
                 else
                 {
-                    Console.WriteLine("no available doctor   (((if large)))");
+                    Console.WriteLine(" No available slots for this  doctor id =" + a.doctorId);
+                    return;
                 }
+
             }
-        }
 
-        static void Main(string[] args)
-        {
-            HospitalContext mainContext = new HospitalContext();
-            mainContext.Appointments = new List<Appointment>();
-            mainContext.Patients = new List<Patient>();
-            mainContext.Doctors = new List<Doctor>();
-            mainContext.AvailableSlots = new List<AvailableSlot>();
-            mainContext.MedicalRecords = new List<MedicalRecord>();
-
-            bool exit = false;
-            while (exit == false)
+            Console.WriteLine("Enter the selected slot id ");
+            int enteredSlotId = int.Parse(Console.ReadLine());
+            foreach (var s in context.AvailableSlots)
             {
-                Console.WriteLine("======= Welcome to Hospital system =======");
-                Console.WriteLine("01 Patient Registration");
-                Console.WriteLine("02 Add a New Doctor");
-                Console.WriteLine("03 View All Patients");
-                Console.WriteLine("04 View All Doctors by Specialization");
-                Console.WriteLine("05 Add an Available Time Slot for a Doctor");
-                Console.WriteLine("06 Book an Appointment");
-                Console.WriteLine("07 Cancel an Appointment");
-                Console.WriteLine("08 Create a Medical Record After a Visit");
-                Console.WriteLine("09 Generate a Patient Medical History Report");
-                Console.WriteLine("10 Doctor Workload and Revenue Summary");
-                Console.WriteLine("10 Exit");
-
-
-
-                Console.WriteLine("Please enter an option :");
-                int option= int.Parse(Console.ReadLine());
-
-                switch (option)
+                if (enteredSlotId != s.slotId)
                 {
-                    case 01:
-                        PatientRegistration(mainContext);
-                        break;
-
-                    case 02:
-                        AddDoctor(mainContext);
-                        break;
-
-                    case 03:
-                        ViewPatients(mainContext);
-                        break;
-
-                    case 04:
-                        ViewDoctors(mainContext);
-                        break;
-
-                    case 05:
-                        AddSlot(mainContext);
-                        break;
-
-                    case 06:
-                        BookAppointment(mainContext);
-                        break;
-
-                    //case 07:
-                    //    break;
-
-                    //case 08:
-                    //    break;
-
-                    //case 09:
-                    //    break;
-
-                    //case 10:
-                    //    break;
-
-                    case 0:
-                        exit = true;
-                        break;
-
-                    default:
-                        Console.WriteLine("Invalid option. Please try again.");
-                        break;
-
-
+                    Console.WriteLine("not available slot");
+                    return;
+                } else
+                {
+                    s.isBooked = true;
+                    Console.WriteLine(" available slot");
                 }
             }
+
+
+            int appointmentId = (context.Appointments.Count) + 1;
+
+            context.Appointments.Add(new Appointment
+            {
+                appointmentId = appointmentId,
+                patientId = patientId,
+                doctorId = enteredDoctorId,
+                status = "Booked",
+
+
+            });
+
+            //foreach (var s in context.AvailableSlots)
+            //{
+            //    if (s.doctorId == s.doctorId &&
+            //        s.slotDate == appointment.appointmentDate &&
+            //        s.slotTime == appointment.appointmentTime)
+            //    {
+            //        s.isBooked = false;
+            //    }
+            //}
+            Console.WriteLine("Appointment booked successfully.");
+
         }
+
+
+        public static void CancelAppointment(HospitalContext context)
+        {
+            Console.WriteLine("Enter appointment Id that you want to cancel");
+            int appointmentId = int.Parse(Console.ReadLine());
+
+            bool cancelled = false;
+
+            foreach(var x in context.Appointments)
+            {
+                 if (appointmentId != x.appointmentId)
+                {
+                    cancelled = false;
+                    Console.WriteLine("Appointment not found");
+
+
+                    if (x.status == "Cancelled")
+                    {
+                        cancelled = false;
+                        Console.WriteLine("Appointment already cancelled");
+
+                        return;
+                    }
+                } 
+            } 
+            
+            
+            
+            
+            if (!cancelled)
+            {
+                Console.WriteLine("Appointment cancelled successfully");
+                
+            }
+
+
+        }
+
+
+
+
+
+            static void Main(string[] args)
+            {
+                HospitalContext mainContext = new HospitalContext();
+                mainContext.Appointments = new List<Appointment>();
+                mainContext.Patients = new List<Patient>();
+                mainContext.Doctors = new List<Doctor>();
+                mainContext.AvailableSlots = new List<AvailableSlot>();
+                mainContext.MedicalRecords = new List<MedicalRecord>();
+
+                bool exit = false;
+                while (exit == false)
+                {
+                    Console.WriteLine("======= Welcome to Hospital system =======");
+                    Console.WriteLine("01 Patient Registration");
+                    Console.WriteLine("02 Add a New Doctor");
+                    Console.WriteLine("03 View All Patients");
+                    Console.WriteLine("04 View All Doctors by Specialization");
+                    Console.WriteLine("05 Add an Available Time Slot for a Doctor");
+                    Console.WriteLine("06 Book an Appointment");
+                    Console.WriteLine("07 Cancel an Appointment");
+                    Console.WriteLine("08 Create a Medical Record After a Visit");
+                    Console.WriteLine("09 Generate a Patient Medical History Report");
+                    Console.WriteLine("10 Doctor Workload and Revenue Summary");
+                    Console.WriteLine("10 Exit");
+
+
+
+                    Console.WriteLine("Please enter an option :");
+                    int option = int.Parse(Console.ReadLine());
+
+                    switch (option)
+                    {
+                        case 01:
+                            PatientRegistration(mainContext);
+                            break;
+
+                        case 02:
+                            AddDoctor(mainContext);
+                            break;
+
+                        case 03:
+                            ViewPatients(mainContext);
+                            break;
+
+                        case 04:
+                            ViewDoctors(mainContext);
+                            break;
+
+                        case 05:
+                            AddSlot(mainContext);
+                            break;
+
+                        case 06:
+                            BookAppointment(mainContext);
+                            break;
+
+                        //case 07:
+                        //    break;
+
+                        //case 08:
+                        //    break;
+
+                        //case 09:
+                        //    break;
+
+                        //case 10:
+                        //    break;
+
+                        case 0:
+                            exit = true;
+                            break;
+
+                        default:
+                            Console.WriteLine("Invalid option. Please try again.");
+                            break;
+
+
+                    }
+                }
+            }
+        
     }
 }
