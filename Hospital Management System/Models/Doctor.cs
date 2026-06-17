@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -14,5 +15,9 @@ namespace Hospital_Management_System.Models
         public string doctorPhone  { get; set; }
         public string doctorEmail { get; set; }
         public decimal consultationFee { get; set; }
+        public void convertDataToStringDoctor()
+        {
+            Console.WriteLine($"{doctorId} | {doctorName} | {doctorSpecialization} | {doctorPhone} | {doctorEmail} | {consultationFee} ");
+        }
     }
 }

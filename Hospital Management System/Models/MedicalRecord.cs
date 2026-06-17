@@ -16,5 +16,10 @@ namespace Hospital_Management_System.Models
         public string prescription { get; set; }
         public string visitDate { get; set; }
         public decimal visitFee { get; set; }
+
+        public void convertDataToStringMedicalRecord()
+        {
+            Console.WriteLine($"{recordId} | {patientId} | {doctorId} | {appointmentId} | {diagnosis} | {prescription}  | {visitDate} | {visitFee} ");
+        }
     }
 }

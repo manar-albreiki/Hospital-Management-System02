@@ -14,5 +14,6 @@ namespace Hospital_Management_System
         public List<Doctor> Doctors { get; set; }
         public List<MedicalRecord> MedicalRecords { get; set; }
         public List<Patient> Patients { get; set; }
+
     }
 }

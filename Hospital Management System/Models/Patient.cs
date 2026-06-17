@@ -16,5 +16,10 @@ namespace Hospital_Management_System.Models
         public string patientEmail { get; set; }
         public string patientBloodType { get; set; }
 
+        public void convertDataToStringPatient()
+        {
+            Console.WriteLine($"{patientId} | {patientId} | {patientName} | {patientAge} | {patientGender} | {patientPhone}  | {patientEmail} | {patientBloodType} ");
+        }
+
     }
 }

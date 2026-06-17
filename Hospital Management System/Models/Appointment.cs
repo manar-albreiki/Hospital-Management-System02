@@ -15,7 +15,10 @@ namespace Hospital_Management_System.Models
         public string appointmentTime { get; set; }
         public string status { get; set; }
 
+        public void convertDataToStringAppointment()
+        {
+            Console.WriteLine($"{appointmentId} | {patientId} | {doctorId} | {appointmentDate} | {appointmentTime} | {status} ");
+        }
 
-       
     }
 }

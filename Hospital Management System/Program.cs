@@ -3,11 +3,45 @@ using System.Net.NetworkInformation;
 using System.Runtime.CompilerServices;
 using System.Threading.Channels;
 using System.Transactions;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace Hospital_Management_System
 {
     internal class Program
     {
+        static void PrintPatients(List<Patient> patientsList)
+        {
+            foreach (Patient p in patientsList)
+            {
+                p.convertDataToStringPatient();
+            }
+        }
+
+
+        static void PrintDoctors(List<Doctor> DoctorsList)
+        {
+            foreach (Doctor p in DoctorsList)
+            {
+                p.convertDataToStringDoctor();
+            }
+        }
+
+
+        static void PrintSlots(List<AvailableSlot> AvailableSlotsList)
+        {
+            foreach (AvailableSlot p in AvailableSlotsList)
+            {
+                p.convertDataToStringAvailableSlot();
+            }
+        }
+
+        static void PrintAppointment(List<Appointment> AppointmentsList)
+        {
+            foreach (Appointment p in AppointmentsList)
+            {
+                p.convertDataToStringAppointment();
+            }
+        }
         //01 Patient Registration
         public static void PatientRegistration(HospitalContext context)
         {
@@ -77,48 +111,76 @@ namespace Hospital_Management_System
             });
         }
         //03 View All Patients
-        public static void ViewPatients(HospitalContext context)
+        public static void ViewPatients(List<Patient> viewPatients)
         {
-            if (context.Patients != null)
-            {
-                foreach (var p in context.Patients)
-                {
-                    Console.WriteLine("Patient details:");
-                    Console.WriteLine("patient Id:" + p.patientId);
-                    Console.WriteLine("patient Name:" + p.patientName);
-                    Console.WriteLine("patient Phone:" + p.patientPhone);
-                    Console.WriteLine("patient Blood Type:" + p.patientBloodType);
+            //if (context.Patients != null)
+            //{
+            //    foreach (var p in context.Patients)
+            //    {
+            //        Console.WriteLine("Patient details:");
+            //        Console.WriteLine("patient Id:" + p.patientId);
+            //        Console.WriteLine("patient Name:" + p.patientName);
+            //        Console.WriteLine("patient Phone:" + p.patientPhone);
+            //        Console.WriteLine("patient Blood Type:" + p.patientBloodType);
 
-                }
-            } else
+            //    }
+            //} else
+            //{
+            //    Console.WriteLine("No Patient have been registered yet!");
+            //}
+
+            var ViewAllPatients = viewPatients.Where(x => x.patientId > 0).ToList();
+            if (ViewAllPatients.Count > 0)
             {
-                Console.WriteLine("No Patient have been registered yet!");
+                PrintPatients(ViewAllPatients);
             }
+            else
+            {
+                Console.WriteLine("no available patients");
+            }
+
         }
         //04 View All Doctors by Specialization
-        public static void ViewDoctors(HospitalContext context)
+        public static void ViewDoctors(List<Doctor> ViewDoctors)
         {
 
             Console.WriteLine("Enter doctors Specialization");
             string enterdSpecialization = Console.ReadLine();
 
 
-            foreach (var c in context.Doctors)
+            //foreach (var c in context.Doctors)
+            //{
+            //    if (enterdSpecialization == c.doctorSpecialization)
+            //    {
+            //        Console.WriteLine("doctor Id: " + c.doctorId);
+            //        Console.WriteLine("doctor Name: " + c.doctorName);
+            //        Console.WriteLine("doctor Specialization: " + c.doctorSpecialization);
+            //        Console.WriteLine("doctor Phone: " + c.doctorPhone);
+            //        Console.WriteLine("doctor Email: " + c.doctorEmail);
+            //        Console.WriteLine("consultationFee: " + c.consultationFee);
+            //    } else
+            //    {
+            //        Console.WriteLine("No available doctors");
+            //    }
+            //}
+
+            var Specialization = ViewDoctors.Where(x => x.doctorSpecialization==enterdSpecialization).ToList();
+
+
+            if (Specialization.Count > 0)
             {
-                if (enterdSpecialization == c.doctorSpecialization)
-                {
-                    Console.WriteLine("doctor Id: " + c.doctorId);
-                    Console.WriteLine("doctor Name: " + c.doctorName);
-                    Console.WriteLine("doctor Specialization: " + c.doctorSpecialization);
-                    Console.WriteLine("doctor Phone: " + c.doctorPhone);
-                    Console.WriteLine("doctor Email: " + c.doctorEmail);
-                    Console.WriteLine("consultationFee: " + c.consultationFee);
-                } else
-                {
-                    Console.WriteLine("No available doctors");
-                }
+                PrintDoctors(Specialization);
             }
+            else
+            {
+                Console.WriteLine("no available doctors in this Specialization");
+            }
+
+
+
+
         }
+
         //05 Add an Available Time Slot for a Doctor
         public static void AddSlot(HospitalContext context)
         {
@@ -238,42 +300,68 @@ namespace Hospital_Management_System
 
             bool foundAvailableSlot = false;
 
-            foreach (var s in context.AvailableSlots)
-            {
-                if (s.isBooked==false&&s.doctorId== doctorId)
-                {
-                     foundAvailableSlot = true;
-                    Console.WriteLine("Date: "+s.slotDate+"  Time :"+s.slotTime);
-                }else
-                {
-                    foundAvailableSlot = false;
-                    Console.WriteLine("no available slots for doctor ="+ s.doctorId);
-                    return;
-                }
-            }
+            //foreach (var s in context.AvailableSlots)
+            //{
+            //    if (s.isBooked==false&&s.doctorId== doctorId)
+            //    {
+            //         foundAvailableSlot = true;
+            //        Console.WriteLine("Date: "+s.slotDate+"  Time :"+s.slotTime);
+            //    }else
+            //    {
+            //        foundAvailableSlot = false;
+            //        Console.WriteLine("no available slots for doctor ="+ s.doctorId);
+            //        return;
+            //    }
+            //}
 
+            List<AvailableSlot> availableSlot = context.AvailableSlots.Where(x => x.isBooked == false && x.doctorId == doctorId).ToList();
+            if (availableSlot.Count > 0)
+            {
+                PrintSlots(availableSlot);
+            }
+            else
+            {
+                Console.WriteLine("no available slots");
+            }
+            //-------
             Console.WriteLine("Enter a slot id");
             int enteredSlotId = int.Parse(Console.ReadLine());
 
             bool slotFound = false;
 
-            foreach (var s in context.AvailableSlots)
+            //foreach (var s in context.AvailableSlots)
+            //{
+            //    if (s.slotId == enteredSlotId &&
+            //        s.doctorId == doctorId &&
+            //        s.isBooked == false)
+            //    {
+            //        slotFound = true;
+
+            //        s.isBooked = true;
+
+            //    } 
+
+            //} if (slotFound == false)
+            //{ 
+            //    Console.WriteLine("Slot not found");
+
+            //}
+
+            var BookedSlots = context.AvailableSlots.First(x => x.isBooked == false &&
+                                                                x.slotId == enteredSlotId &&
+                                                                x.doctorId == doctorId);
+                                                  
+
+            if (BookedSlots !=null)
             {
-                if (s.slotId == enteredSlotId &&
-                    s.doctorId == doctorId &&
-                    s.isBooked == false)
-                {
-                    slotFound = true;
-                    s.isBooked = true;
-                    break;
-                } else
-                {
-                    slotFound = false;
-                    Console.WriteLine("Slot not found");
-                    return;
-                }
+                BookedSlots.isBooked = true;
+            }
+            else
+            {
+                Console.WriteLine(" slots not found");
             }
 
+            //-----
 
             int appointmentId = (context.Appointments.Count) + 1;
 
@@ -328,41 +416,64 @@ namespace Hospital_Management_System
 
 
         //}
-        public static void CancelAppointment(HospitalContext context)
+        public static void CancelAppointment(List<Appointment> CancelledAppointment)
         {
             Console.WriteLine("Enter appointment Id");
-            int appointmentId = int.Parse(Console.ReadLine());
+            int enteredAppointmentId = int.Parse(Console.ReadLine());
 
-          
+            bool found = false;
 
-            foreach(var a in context.Appointments)
+            //foreach (Appointment a in CancelledAppointment)
+            //{
+            //    if (a.appointmentId == appointmentId)
+            //    {
+            //        found = true;
+
+            //        if (a.status == "cancelled")
+            //        {
+            //            Console.WriteLine("Appointment already cancelled");
+            //        }
+            //        else
+            //        {
+            //            a.status = "cancelled";
+            //            Console.WriteLine("Appointment cancelled successfully");
+            //        }
+            //    }
+            //}
+
+            //if (found == false)
+            //{
+            //    Console.WriteLine("Appointment not found");
+            //}
+
+            List<Appointment> foundAppointment = CancelledAppointment.Where(x => x.appointmentId == enteredAppointmentId && x.status == "Cancelled")
+                                                                     .ToList();
+            if (foundAppointment.Count > 0)
             {
-
-                if (a.appointmentId== appointmentId)
-                {
-                    if (a.status == "cancelled")
-                    {
-                        Console.WriteLine("Appointment already cancelled");
-                    } else
-                    {
-                        a.status = "cancelled";
-                        Console.WriteLine("Appointment already cancelled");
-                        
-                    }
-
-                    break;
-                }
-
-                if (a.appointmentId != appointmentId)
-                {
-                    Console.WriteLine("appointment not found");
-                }
-
-
-
-
-
+               
+                Console.WriteLine("Appointment  found and Appointment already cancelled");
             }
+            else
+            {
+                Console.WriteLine("Appointment not found");
+            }
+
+
+            List<Appointment> cancelAppointment = CancelledAppointment.Where(x => x.appointmentId == enteredAppointmentId && x.status != "Cancelled")
+                                                                     .ToList();
+            if (foundAppointment.Count > 0)
+            {
+               foundAppointment.status = "Cancelled";
+                Console.WriteLine("Appointment  found and Appointment already cancelled");
+            }
+            else
+            {
+                Console.WriteLine("Appointment not found");
+            }
+
+
+
+
         }
 
 
@@ -412,8 +523,44 @@ namespace Hospital_Management_System
 
 
         //09 Generate a Patient Medical History Report
+        
+        public static void History(HospitalContext context)
+        {
+            Console.WriteLine("enter patientId");
+            int patientId = int.Parse(Console.ReadLine());
+
+            decimal totalCharges = 0;
+
+            foreach (var r in context.MedicalRecords)
+            {
+                if (r.patientId == patientId)
+                {
 
 
+                   
+
+                    foreach (var d in context.Doctors)
+                    {
+                        if (d.doctorId == r.doctorId)
+                        {
+                           
+                            break;
+                        }
+                    }
+
+                    Console.WriteLine("Visit Date: " + r.visitDate);
+                    //Console.WriteLine("Doctor Name: " + d.doctorName);
+                    Console.WriteLine("Diagnosis: " + r.diagnosis);
+                    Console.WriteLine("Prescription: " + r.prescription);
+                    Console.WriteLine("Visit Fee: " + r.visitFee);
+
+
+                    totalCharges += r.visitFee;
+                }
+            }
+
+
+        }
 
 
         static void Main(string[] args)
@@ -495,7 +642,10 @@ namespace Hospital_Management_System
 
                     }
                 }
-            }
+
+
+
+        }
         
     }
 }
