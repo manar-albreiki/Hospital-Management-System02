@@ -78,6 +78,7 @@ namespace Hospital_Management_System
             });
             Console.WriteLine("Patient Added Successfully with ID " + patientId);
         }
+        
         //02 Add a New Doctor
         public static void AddDoctor(HospitalContext context)
         {
@@ -110,6 +111,8 @@ namespace Hospital_Management_System
 
             });
         }
+        
+        
         //03 View All Patients
         public static void ViewPatients(List<Patient> viewPatients)
         {
@@ -147,6 +150,8 @@ namespace Hospital_Management_System
                 p.convertDataToStringPatient(); 
             }
         }
+        
+        
         //04 View All Doctors by Specialization
         public static void ViewDoctors(List<Doctor> ViewDoctors)
         {
@@ -205,6 +210,7 @@ namespace Hospital_Management_System
 
         }
 
+        
         //05 Add an Available Time Slot for a Doctor
         public static void AddSlot(HospitalContext context)
         {
@@ -250,14 +256,7 @@ namespace Hospital_Management_System
             Console.WriteLine($"The Slot with id = {slotId} has been added to doctor with id = {doctorId}");
         }
 
-
-
-
-
-
-          
-
-
+        //06 Book an Appointment
         public static void BookAppointment(HospitalContext context)
         {
             Console.WriteLine("Enter patient Id");
@@ -359,7 +358,7 @@ namespace Hospital_Management_System
         }
 
 
-       
+        //07 Cancel an Appointment
         public static void CancelAppointment(HospitalContext context)
         {
             Console.WriteLine("Enter appointment Id");
@@ -427,9 +426,6 @@ namespace Hospital_Management_System
 
         }
 
-
-
-
         //08 Create a Medical Record After a Visit
         public static void MedicalRecord(HospitalContext context)
         {
@@ -493,23 +489,25 @@ namespace Hospital_Management_System
         }
 
 
-
         //09 Generate a Patient Medical History Report
-        
         public static void MedicalHistoryReport(HospitalContext context)
         {
             Console.WriteLine("enter patientId");
             int patientId = int.Parse(Console.ReadLine());
 
-      
+            //  find the patient
             Patient Patients = context.Patients.FirstOrDefault(x => x.patientId == patientId);
+
+
             if (Patients == null)
             {
                 Console.WriteLine("patient not found");
                 return;
             }
-
+            // get all records for this patient
             List<MedicalRecord> PatientRecords = context.MedicalRecords.Where(x => x.patientId == patientId).ToList();
+
+
             if (PatientRecords.Count == 0)
             {
                 Console.WriteLine("No Medical Records for this patient");
@@ -520,6 +518,69 @@ namespace Hospital_Management_System
             {
                 p.convertDataToStringMedicalRecord();
             }
+            Console.WriteLine($"\n--- Medical History for {Patients.patientName} (ID: {patientId}) ---");
+            foreach (var r in PatientRecords)
+            {
+                //to know doctor name
+                string doctorName = context.Doctors.Where(d => d.doctorId == r.doctorId)
+                                                   .Select(d => d.doctorName)
+                                                   .FirstOrDefault();
+
+                Console.WriteLine($"\n  Record ID   : {r.recordId}");
+                Console.WriteLine($"  Visit Date  : {r.visitDate}");
+                Console.WriteLine($"  Doctor      : {doctorName}");
+                Console.WriteLine($"  Diagnosis   : {r.diagnosis}");
+                Console.WriteLine($"  Prescription: {r.prescription}");
+                Console.WriteLine($"  Fee Charged : {r.visitFee:C}");
+                Console.WriteLine("-------------------------------------" );
+
+
+                //  total all fees
+                decimal totalCharged = PatientRecords.Sum(r => r.visitFee);
+                Console.WriteLine($"\n  TOTAL AMOUNT CHARGED: {totalCharged:C}");
+
+            }
+        }
+        
+        
+        //10 Doctor Workload and Revenue Summary
+        public static void RevenueSummary(HospitalContext context)
+        {
+            Console.WriteLine("=== Doctor Workload & Revenue Summary ===");
+            
+            if (context.Appointments.Count == 0)
+            {
+                Console.WriteLine("no apppintments has been recorded");
+            }
+
+            var summary = context.Doctors
+                .Select(d => new
+                {
+                    d.doctorId,
+                    d.doctorName,
+                    d.doctorSpecialization,
+                    // Count() with predicate to count completed appointments
+                    completed = context.Appointments.Count(a => a.doctorId == d.doctorId && a.status == "Completed"),
+                    // Count() with predicate to count cancelled appointments
+                    cancelled = context.Appointments.Count(a => a.doctorId == d.doctorId && a.status == "Cancelled"),
+                    // Sum() to total revenue from medical records
+                    totalRevenue = context.MedicalRecords
+                        .Where(r => r.doctorId == d.doctorId)
+                        .Sum(r => r.visitFee)
+                })
+                .OrderByDescending(x => x.totalRevenue)
+                .ToList();
+
+            Console.WriteLine("\n  Rank  | Doctor Name               | Specialization       | Completed | Cancelled | Total Revenue");
+            Console.WriteLine("  " + new string('-', 95));
+
+            for (int i = 0; i < summary.Count; i++)
+            {
+                var x = summary[i];
+                Console.WriteLine($"  #{i + 1,-5} | {x.doctorName,-25} | {x.doctorSpecialization,-20} |" +
+                                  $" {x.completed,-9} | {x.cancelled,-9} | {x.totalRevenue:C}");
+            }
+
 
         }
 
@@ -568,15 +629,13 @@ namespace Hospital_Management_System
 
                         case 06:BookAppointment(mainContext);break;
 
-                    case 07:CancelAppointment(mainContext);break;
+                        case 07:CancelAppointment(mainContext);break;
 
-                    case 08:MedicalHistoryReport(mainContext);break;
+                        case 08:MedicalHistoryReport(mainContext);break;
 
-                    //case 09:
-                    //    break;
+                        case 09: MedicalHistoryReport(mainContext); break;
 
-                    //case 10:
-                    //    break;
+                    case 10:RevenueSummary(mainContext);break;
 
                     case 0:exit = true;break;
 

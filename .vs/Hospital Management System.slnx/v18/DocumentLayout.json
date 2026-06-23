@@ -48,7 +48,7 @@
               "RelativeDocumentMoniker": "Hospital Management System\\Program.cs",
               "ToolTip": "C:\\Users\\maaa7\\OneDrive\\Documents\\Solution\\Hospital Management System02\\Hospital Management System\\Program.cs",
               "RelativeToolTip": "Hospital Management System\\Program.cs",
-              "ViewState": "AgIAADYCAAAAAAAAAAAIwEcCAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAABAAAAAAAAAAAAAgwOsBAAA2AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-06-11T05:38:23.337Z",
               "IsPinned": true,
@@ -64,8 +64,7 @@
               "RelativeToolTip": "Hospital Management System\\Models\\Patient.cs",
               "ViewState": "AgIAAAQAAAAAAAAAAAAAABIAAAAUAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-17T05:41:16.945Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-06-17T05:41:16.945Z"
             },
             {
               "$type": "Document",
@@ -77,8 +76,7 @@
               "RelativeToolTip": "Hospital Management System\\Models\\MedicalRecord.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAAA0AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-17T05:39:17.807Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-06-17T05:39:17.807Z"
             },
             {
               "$type": "Document",
@@ -126,8 +124,7 @@
               "RelativeToolTip": "Hospital Management System\\HospitalContext.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-15T05:09:52.226Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-06-15T05:09:52.226Z"
             }
           ]
         }
